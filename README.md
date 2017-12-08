@@ -104,3 +104,63 @@ TODO
 
 Not sure if I'll bother after all.
 
+
+
+# Starting Development
+My plan is to make a computer mouse with the joysticks from an xbox controller
+and some microswitches.
+
+And looky here!
+Simplicity Studio has example code for micriumos_usbhidmouse!
+
+The demo works fine.
+After connecting a micro usb, my mouse jitters all over the screen.
+
+I just need to install that micriumos source that i ticked off earlier.
+Apparently, I have "Access: 1 of 5".
+Ominous.
+
+The program still wont compile.
+Lets try micriumos_blink.
+That works.
+
+But micriumos_usbhidmouse can't find "usbd_core.h".
+Neither can windows explorer.
+There are no more logically relevant SDKs to download.
+
+## Where's the Missing USB drivers?
+Comparing the Micrium API reference and my computers directories, I find that
+I am missing at least the file system component, network and usb drivers.
+
+Searching in simplicity directs me to the forum pages.
+Seemingly, no one has had this problem before me.
+Neither can I find a "post a question" button.
+
+Micrium.org has no downloads for me.
+Silabs.com refers to all the steps I have already taken.
+Maybe I gain access after registering my product?
+In times like these, I miss the free software communities.
+
+### Registering My Product
+I think I saw a "register" text somewhere in Simplicity.
+
+Under settings?
+Not as far as I can tell.
+Under the SDK manager?
+Nope.
+At the launcher frontpage?
+Cant see it.
+Selecting the device?
+No.
+
+Maybe I remembered incorectly.
+
+
+
+# Doing it the hard way after all
+I yield!
+
+Let me first check if there is emlib support for usb devices for gg11.
+The API reference mentions em_usbd.c only for giant gecko, not for gg11.
+
+TODO I'll continue tomorrow
