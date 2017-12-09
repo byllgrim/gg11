@@ -272,4 +272,42 @@ Success?
 It does flash, but it doesn't do anything, of course.
 
 ## Enabling LED
+Let's get a spec sheet or reference up.
+I'm looking for addresses relating to the LED status.
+A web search for "gg11" takes me right to the starter kit documentation.
+Nice.
+
+First, what does the example blink.c do?
+It calls `BSP_LedToggle()`.
+The online api reference mentions `BSP_LedSet()`, let's find that.
+Ah, it's actually on the web page!
+
+    uint32_t tmp;
+    tmp = BSP_RegisterRead(BSP_LED_PORT) & BSP_LED_MASK;
+    tmp |= 1 << ledNo;
+    BSP_RegisterWrite(BSP_LED_PORT, tmp);
+
+`BSP_RegisterWrite()` refers further to `SpiRegisterRead()`.
+I guess thats as far as I got on my own.
+I could either copy or implement those features on my own, but I'd rather use
+the provided bsp.
+At least I still control my own makefile and such.
+
+## Utilizing the Provided BSP
+Ill call the `BSP_LedsInit()` and include files until the compiler stops
+whining.
+
+### BSP Include Files
+I'm including `bsp.h`.
+It complains about missing part number.
+Allright, including everything that blink.c does.
+Still no part number.
+Checking the Makefile.
+`DEVICE` is defined, but that didn't help either.
+Of course, I must `-D$(DEVICE)`.
+
+This makefile is growing big.
+But maybe - maybe - its cause is inherent complixity of the problem domain.
+
+### BSP Source Files
 TODO
