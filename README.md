@@ -163,4 +163,67 @@ I yield!
 Let me first check if there is emlib support for usb devices for gg11.
 The API reference mentions em_usbd.c only for giant gecko, not for gg11.
 
-TODO I'll continue tomorrow
+I'll continue tomorrow...
+
+## Building Blinky with GCC
+I find my way, through oceans of directory levels, to gg11 blink example source
+code.
+
+There is an `armgcc` directory with a Makefile.
+
+Of course it won't run because they've hardcoded the path to the gnu tools.
+And they also assume that I have the 5.2 2015q4 version.
+That's slightly funny because 4.9 is provided by Simplicity Studio.
+
+At least, arm.com has binaries available (McAfee was tripped up by
+developer.arm.com, though).
+I've now got the "6 2017-q2-update".
+
+## Back to The Spaghetti Makefile
+    WINDOWSCS  ?= GNU Tools ARM Embedded\5.2 2015q4
+
+No, I don't think so.
+
+    TOOLDIR ?= $(PROGRAMFILES)/$(WINDOWSCS)
+
+PROGRAMFILES assumes that I've installed gnu tools to drive C:/!
+I have them on D:.
+Let's try to force the correct directory...
+
+    TOOLDIR ?= D:\Program Files (x86)\GNU Tools ARM Embedded\6 2017-q2-update
+
+Woop woop!
+Building file!
+Creating binary!
+
+## Flashing the chip
+I hope I can trust that README from the gg11 storage device.
+I'll upload the generated `blink.bin` file and see if the chip gets programmed.
+
+*Suspense*
+
+I load a glib example to unload the previously running blinky.
+The storage device opened in windows.
+And bippety bappety copy paste the .bin file.
+The LCD display darkens, storage device disappears, reappears and...
+A file named "FAIL" tells me "Error while connecting to CPU".
+
+Trying the `blink.out` file.
+Renaming it to `test.bin`.
+Nothing.
+
+## Flashing with Unecessarily Necessary Tools
+I remember seeing a "tools" button in Simplicity.
+
+Ah!
+Simplicity Commander, perhaps?
+
+There's a "Flash" button.
+Selecting the binary.
+Connecting to target.
+Flash.
+Finished.
+And we have blinking action!
+
+Sadly, I have to use this idiosyncratic tool, but it's simply enough and works.
+
