@@ -12,14 +12,17 @@ all: blinky.bin
 
 # Binary file
 blinky.bin: blinky.out
-	$(OBJCOPY) -O binary blinky.out blinky.bin
+	@echo OBJCOPY $@
+	@$(OBJCOPY) -O binary blinky.out blinky.bin
 
 # Linking
 blinky.out: $(OBJ)
-	$(CC) $(LDFLAGS) $(OBJ) $(LIB) -o blinky.out
+	@echo CC $@
+	@$(CC) $(LDFLAGS) $(OBJ) $(LIB) -o blinky.out
 
 .c.o:
-	$(CC) -c -o $@ $<
+	@echo CC $<
+	@$(CC) -c -o $@ $<
 
 clean:
 	rm -rf *.o *.out *.bin
