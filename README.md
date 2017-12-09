@@ -227,3 +227,22 @@ And we have blinking action!
 
 Sadly, I have to use this idiosyncratic tool, but it's simply enough and works.
 
+
+
+# MicriumOS USB Device Code
+I know that the micrium usbhidmouse example could really help me.
+The alternative is writing a lot of driver code myself.
+That would be devastatingly time consuming.
+I'll see if there's a student edition of the source code or something gratis.
+
+    micrium.com
+
+"Downloading µC/OS for Makers".
+Life is tedious without a simple `git clone ...`.
+Registrating and providing my life details.
+
+"We will be in touch with you as soon as possible."
+Great.
+I'll read up on the USB standard in the
+[meantime](https://youtu.be/mWwhdINdMs8).
+
