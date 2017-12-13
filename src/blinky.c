@@ -1,4 +1,5 @@
 #include "bsp.h"
+#include "em_chip.h"
 
 /*
 TODO from example blink.c
@@ -15,10 +16,11 @@ TODO from example blink.c
 int
 main(void)
 {
-	/* TODO CHIP_Init(); */
+	CHIP_Init();
 	BSP_LedsInit();
 
-	/* TODO BSP_LedSet(0); */
+	BSP_LedToggle(1);
+	BSP_LedSet(0);
 
 	for (;;)
 		;
