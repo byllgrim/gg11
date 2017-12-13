@@ -1,6 +1,6 @@
 DEVICE = EFM32GG11B820F2048GL192
-GNUTOOLS = D:\Program\ Files\ \(x86\)\GNU\ Tools\ ARM\ Embedded\6\ 2017-q2-update
-SDK = D:\SiliconLabs\SimplicityStudio\v4\developer\sdks\gecko_sdk_suite\v2.0
+GNUTOOLS = D:/Program\ Files\ \(x86\)/GNU\ Tools\ ARM\ Embedded/6\ 2017-q2-update
+SDK = D:/SiliconLabs/SimplicityStudio/v4/developer/sdks/gecko_sdk_suite/v2.0
 
 INC = \
 	-I $(SDK)/hardware/kit/common/bsp \
@@ -8,14 +8,20 @@ INC = \
 	-I $(SDK)/platform/CMSIS/Include \
 	-I $(SDK)/platform/Device/SiliconLabs/EFM32GG11B/Include \
 	-I $(SDK)/platform/emlib/inc
+SRC = \
+	blinky.c \
+	$(SDK)/hardware/kit/common/bsp/bsp_stk_leds.c \
+	$(SDK)/platform/Device/SiliconLabs/EFM32GG11B/Source/system_efm32gg11b.c \
+	$(SDK)/platform/emlib/src/em_cmu.c \
+	$(SDK)/platform/emlib/src/em_emu.c \
+	$(SDK)/platform/emlib/src/em_gpio.c
 
 CC = $(GNUTOOLS)/bin/arm-none-eabi-gcc
 OBJCOPY = $(GNUTOOLS)/bin/arm-none-eabi-objcopy
 LIB = -lc -lnosys
-CPPFLAGS = -D $(DEVICE)
-CFLAGS = $(INC) $(CPPFLAGS)
-
-SRC = blinky.c
+CPPFLAGS = -D$(DEVICE)
+GGFLAGS = -mcpu=cortex-m4
+CFLAGS = -Os -Wall -Wextra $(GGFLAGS) $(INC) $(CPPFLAGS)
 OBJ = $(SRC:.c=.o)
 
 # TODO CFLAGS = -mcpu=cortex-m4 etc?
@@ -33,8 +39,11 @@ blinky.out: $(OBJ)
 	@$(CC) $(LDFLAGS) $(OBJ) $(LIB) -o blinky.out
 
 .c.o:
-	@echo CC $<
+	@echo CC `basename $<`
 	@$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -rf *.o *.out *.bin
+	@echo cleaning
+	@rm -rf $(OBJ) *.out *.bin
+
+.PHONY: all clean

@@ -1,4 +1,4 @@
-# gg11
+﻿# gg11
 Experimenting with a giant gecko
 
 This text documents, very casually, my play-sessions with a [gg11](https://www.silabs.com/products/development-tools/mcu/32-bit/efm32-giant-gecko-gg11-starter-kit).
@@ -310,4 +310,15 @@ This makefile is growing big.
 But maybe - maybe - its cause is inherent complixity of the problem domain.
 
 ### BSP Source Files
-TODO
+I'm adding source files as needed.
+This turns out to be a bit cumbersome with windows file paths and trying to
+conform to standard makefiles (no gnu extensions).
+And the long paths of the sdk makes it hard to stay both reasonable and within
+80 characters line width.
+And I had to yield to the `-mcpu=cortex-m4` to enable `wfi`.
+
+Finally, a `.bin` file!
+I'm gonna flash it to the chip.
+
+Oopsa! No blinky yet.
+--------........--------........--------........--------........--------........
