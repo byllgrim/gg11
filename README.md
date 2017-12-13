@@ -321,4 +321,17 @@ Finally, a `.bin` file!
 I'm gonna flash it to the chip.
 
 Oopsa! No blinky yet.
+
+### Fixing the Executable
+I'm looking for the missing piece to get my already compiling code to function
+as intended.
+
+I noticed that CHIP_Init uses a lot of ifdefs which i probably haven't defined.
+The relevant ones aren't easy to find either.
+
+In my quest for extreme minimalism, I have neglected `startup_efm32gg11b.S`
+and `efm32gg11b.ld`.
+I also neglected i.a. a linker flags `-mcpu=cortex-m4`.
+Some of the options of the example makefile seems to be essential, while others
+are superfluous.
 --------........--------........--------........--------........--------........
