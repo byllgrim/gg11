@@ -1,7 +1,7 @@
 .POSIX:
 .PHONY: all clean
 
-PROG = blink
+PROG = ledon
 DEVICE = EFM32GG11B820F2048GL192
 TOOLDIR = D:/Program\ Files\ \(x86\)/GNU\ Tools\ ARM\ Embedded/6\ 2017-q2-update
 SDKDIR = D:/SiliconLabs/SimplicityStudio/v4/developer/sdks/gecko_sdk_suite/v2.0
@@ -47,7 +47,7 @@ C_SRC =  \
 	$(SDKDIR)/platform/emlib/src/em_gpio.c \
 	$(SDKDIR)/platform/emlib/src/em_system.c \
 	$(SDKDIR)/platform/emlib/src/em_usart.c \
-	./blink.c
+	./ledon.c
 
 S_SRC =  \
 	$(SDKDIR)/platform/Device/SiliconLabs/EFM32GG11B/Source/GCC/startup_efm32gg11b.S
