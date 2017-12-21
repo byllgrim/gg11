@@ -1,49 +1,85 @@
+.POSIX:
+.PHONY: all clean
+
+PROG = blink
 DEVICE = EFM32GG11B820F2048GL192
-GNUTOOLS = D:/Program\ Files\ \(x86\)/GNU\ Tools\ ARM\ Embedded/6\ 2017-q2-update
-SDK = D:/SiliconLabs/SimplicityStudio/v4/developer/sdks/gecko_sdk_suite/v2.0
+TOOLDIR = D:/Program\ Files\ \(x86\)/GNU\ Tools\ ARM\ Embedded/6\ 2017-q2-update
+SDKDIR = D:/SiliconLabs/SimplicityStudio/v4/developer/sdks/gecko_sdk_suite/v2.0
+CC      = $(TOOLDIR)/bin/arm-none-eabi-gcc
+LD      = $(TOOLDIR)/bin/arm-none-eabi-ld
+AR      = $(TOOLDIR)/bin/arm-none-eabi-ar
+OBJCOPY = $(TOOLDIR)/bin/arm-none-eabi-objcopy
+
+DEPFLAGS = -MMD -MP -MF $(@:.o=.d)
+
+CFLAGS = -D$(DEVICE) -Wall -Wextra -mcpu=cortex-m4 -mthumb -mfloat-abi=softfp \
+	-mfpu=fpv4-sp-d16 -ffunction-sections -fdata-sections -Os -g \
+	-fomit-frame-pointer -std=c99 -DDEBUG_EFM $(DEPFLAGS) $(BUILDFLAGS)
+
+ASMFLAGS = -x assembler-with-cpp -D$(DEVICE) -Wall -Wextra -mcpu=cortex-m4 \
+	-mthumb -mfloat-abi=softfp -mfpu=fpv4-sp-d16 -DDEBUG_EFM $(DEPFLAGS)
+
+LDFLAGS = -Xlinker -Map=$(PROG).map -mcpu=cortex-m4 \
+	-mthumb -mfloat-abi=softfp -mfpu=fpv4-sp-d16 \
+	-T$(SDKDIR)/platform/Device/SiliconLabs/EFM32GG11B/Source/GCC/efm32gg11b.ld \
+	--specs=nano.specs -Wl,--gc-sections 
+
+LIBS = -lgcc -lc -lnosys
 
 INC = \
-	-I $(SDK)/hardware/kit/common/bsp \
-	-I $(SDK)/hardware/kit/SLSTK3701A_EFM32GG11/config \
-	-I $(SDK)/platform/CMSIS/Include \
-	-I $(SDK)/platform/Device/SiliconLabs/EFM32GG11B/Include \
-	-I $(SDK)/platform/emlib/inc
-SRC = \
-	blinky.c \
-	$(SDK)/hardware/kit/common/bsp/bsp_stk_leds.c \
-	$(SDK)/platform/Device/SiliconLabs/EFM32GG11B/Source/system_efm32gg11b.c \
-	$(SDK)/platform/emlib/src/em_cmu.c \
-	$(SDK)/platform/emlib/src/em_emu.c \
-	$(SDK)/platform/emlib/src/em_gpio.c
+	-I. \
+	-I$(SDKDIR)/platform/CMSIS/Include \
+	-I$(SDKDIR)/platform/Device/SiliconLabs/EFM32GG11B/Include \
+	-I$(SDKDIR)/platform/emlib/inc \
+	-I$(SDKDIR)/hardware/kit/common/bsp \
+	-I$(SDKDIR)/hardware/kit/SLSTK3701A_EFM32GG11/config
 
-CC = $(GNUTOOLS)/bin/arm-none-eabi-gcc
-OBJCOPY = $(GNUTOOLS)/bin/arm-none-eabi-objcopy
-LIB = -lc -lnosys
-CPPFLAGS = -D$(DEVICE)
-GGFLAGS = -mcpu=cortex-m4
-CFLAGS = -Os -Wall -Wextra $(GGFLAGS) $(INC) $(CPPFLAGS)
-OBJ = $(SRC:.c=.o)
+C_SRC =  \
+	$(SDKDIR)/platform/Device/SiliconLabs/EFM32GG11B/Source/system_efm32gg11b.c \
+	$(SDKDIR)/hardware/kit/common/bsp/bsp_bcc.c \
+	$(SDKDIR)/hardware/kit/common/bsp/bsp_stk.c \
+	$(SDKDIR)/hardware/kit/common/bsp/bsp_stk_leds.c \
+	$(SDKDIR)/hardware/kit/common/bsp/bsp_trace.c \
+	$(SDKDIR)/platform/emlib/src/em_assert.c \
+	$(SDKDIR)/platform/emlib/src/em_cmu.c \
+	$(SDKDIR)/platform/emlib/src/em_ebi.c \
+	$(SDKDIR)/platform/emlib/src/em_emu.c \
+	$(SDKDIR)/platform/emlib/src/em_gpio.c \
+	$(SDKDIR)/platform/emlib/src/em_system.c \
+	$(SDKDIR)/platform/emlib/src/em_usart.c \
+	./blink.c
 
-# TODO CFLAGS = -mcpu=cortex-m4 etc?
+S_SRC =  \
+	$(SDKDIR)/platform/Device/SiliconLabs/EFM32GG11B/Source/GCC/startup_efm32gg11b.S
 
-all: blinky.bin
+OBJ = $(C_SRC:.c=.o) $(S_SRC:.S=.o)
 
-# Binary file
-blinky.bin: blinky.out
-	@echo OBJCOPY $@
-	@$(OBJCOPY) -O binary blinky.out blinky.bin
+all:      debug
 
-# Linking
-blinky.out: $(OBJ)
-	@echo CC $@
-	@$(CC) $(LDFLAGS) $(OBJ) $(LIB) -o blinky.out
+debug:    BUILDFLAGS = -DDEBUG
+debug:    $(PROG).bin
+
+release:  BUILDFLAGS = -DNDEBUG
+release:  $(PROG).bin
 
 .c.o:
 	@echo CC `basename $<`
-	@$(CC) $(CFLAGS) -c -o $@ $<
+	@$(CC) $(CFLAGS) $(INC) -c -o $@ $<
+
+.S.o:
+	@echo CC `basename $<`
+	@$(CC) $(ASMFLAGS) $(INC) -c -o $@ $<
+
+$(PROG).out: $(OBJ)
+	@echo linking $@
+	@$(CC) $(LDFLAGS) $(OBJ) $(LIBS) -o $(PROG).out
+
+$(PROG).bin: $(PROG).out
+	@echo OBJCOPY $@
+	@$(OBJCOPY) -O binary $(PROG).out $(PROG).bin
 
 clean:
 	@echo cleaning
-	@rm -rf $(OBJ) *.out *.bin
+	@rm -rf $(PROG).bin $(PROG).out $(OBJ) $(OBJ:.o=.d)
 
-.PHONY: all clean
+#include $(OBJ:.o=.d)
