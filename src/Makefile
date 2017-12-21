@@ -1,3 +1,4 @@
+# this file was inspired by, but is hardly a modification of, silabs makefiles
 .POSIX:
 .PHONY: all clean
 
@@ -5,9 +6,9 @@ PROG = ledon
 DEVICE = EFM32GG11B820F2048GL192
 TOOLDIR = D:/Program\ Files\ \(x86\)/GNU\ Tools\ ARM\ Embedded/6\ 2017-q2-update
 SDKDIR = D:/SiliconLabs/SimplicityStudio/v4/developer/sdks/gecko_sdk_suite/v2.0
-CC      = $(TOOLDIR)/bin/arm-none-eabi-gcc
-LD      = $(TOOLDIR)/bin/arm-none-eabi-ld
-AR      = $(TOOLDIR)/bin/arm-none-eabi-ar
+CC = $(TOOLDIR)/bin/arm-none-eabi-gcc
+LD = $(TOOLDIR)/bin/arm-none-eabi-ld
+AR = $(TOOLDIR)/bin/arm-none-eabi-ar
 OBJCOPY = $(TOOLDIR)/bin/arm-none-eabi-objcopy
 
 DEPFLAGS = -MMD -MP -MF $(@:.o=.d)
@@ -54,13 +55,13 @@ S_SRC =  \
 
 OBJ = $(C_SRC:.c=.o) $(S_SRC:.S=.o)
 
-all:      debug
+all: debug
 
-debug:    BUILDFLAGS = -DDEBUG
-debug:    $(PROG).bin
+debug: BUILDFLAGS = -DDEBUG
+debug: $(PROG).bin
 
-release:  BUILDFLAGS = -DNDEBUG
-release:  $(PROG).bin
+release: BUILDFLAGS = -DNDEBUG
+release: $(PROG).bin
 
 .c.o:
 	@echo CC `basename $<`
