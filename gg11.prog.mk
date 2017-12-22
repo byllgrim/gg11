@@ -31,7 +31,9 @@ INC = \
 	-I$(SDKDIR)/platform/CMSIS/Include \
 	-I$(SDKDIR)/platform/Device/SiliconLabs/EFM32GG11B/Include \
 	-I$(SDKDIR)/platform/emlib/inc \
+	-I$(SDKDIR)/platform/middleware/glib \
 	-I$(SDKDIR)/hardware/kit/common/bsp \
+	-I$(SDKDIR)/hardware/kit/common/drivers \
 	-I$(SDKDIR)/hardware/kit/SLSTK3701A_EFM32GG11/config
 # TODO -I.$(PROG) ?
 
