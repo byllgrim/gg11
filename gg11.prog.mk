@@ -2,7 +2,6 @@
 .POSIX:
 .PHONY: all clean
 
-PROG = ledon
 DEVICE = EFM32GG11B820F2048GL192
 TOOLDIR = D:/Program\ Files\ \(x86\)/GNU\ Tools\ ARM\ Embedded/6\ 2017-q2-update
 SDKDIR = D:/SiliconLabs/SimplicityStudio/v4/developer/sdks/gecko_sdk_suite/v2.0
@@ -25,7 +24,7 @@ LDFLAGS = -Xlinker -Map=$(PROG).map -mcpu=cortex-m4 \
 	-T$(SDKDIR)/platform/Device/SiliconLabs/EFM32GG11B/Source/GCC/efm32gg11b.ld \
 	--specs=nano.specs -Wl,--gc-sections 
 
-LIBS = -lgcc -lc -lnosys
+LDLIBS = -lgcc -lc -lnosys
 
 INC = \
 	-I. \
@@ -34,24 +33,7 @@ INC = \
 	-I$(SDKDIR)/platform/emlib/inc \
 	-I$(SDKDIR)/hardware/kit/common/bsp \
 	-I$(SDKDIR)/hardware/kit/SLSTK3701A_EFM32GG11/config
-
-C_SRC =  \
-	$(SDKDIR)/platform/Device/SiliconLabs/EFM32GG11B/Source/system_efm32gg11b.c \
-	$(SDKDIR)/hardware/kit/common/bsp/bsp_bcc.c \
-	$(SDKDIR)/hardware/kit/common/bsp/bsp_stk.c \
-	$(SDKDIR)/hardware/kit/common/bsp/bsp_stk_leds.c \
-	$(SDKDIR)/hardware/kit/common/bsp/bsp_trace.c \
-	$(SDKDIR)/platform/emlib/src/em_assert.c \
-	$(SDKDIR)/platform/emlib/src/em_cmu.c \
-	$(SDKDIR)/platform/emlib/src/em_ebi.c \
-	$(SDKDIR)/platform/emlib/src/em_emu.c \
-	$(SDKDIR)/platform/emlib/src/em_gpio.c \
-	$(SDKDIR)/platform/emlib/src/em_system.c \
-	$(SDKDIR)/platform/emlib/src/em_usart.c \
-	./ledon.c
-
-S_SRC =  \
-	$(SDKDIR)/platform/Device/SiliconLabs/EFM32GG11B/Source/GCC/startup_efm32gg11b.S
+# TODO -I.$(PROG) ?
 
 OBJ = $(C_SRC:.c=.o) $(S_SRC:.S=.o)
 
@@ -73,7 +55,7 @@ release: $(PROG).bin
 
 $(PROG).out: $(OBJ)
 	@echo linking $@
-	@$(CC) $(LDFLAGS) $(OBJ) $(LIBS) -o $(PROG).out
+	@$(CC) $(LDFLAGS) $(OBJ) $(LDLIBS) -o $(PROG).out
 
 $(PROG).bin: $(PROG).out
 	@echo OBJCOPY $@
@@ -81,6 +63,6 @@ $(PROG).bin: $(PROG).out
 
 clean:
 	@echo cleaning
-	@rm -rf $(PROG).bin $(PROG).out $(OBJ) $(OBJ:.o=.d)
+	@rm -rf $(PROG).bin $(PROG).out $(OBJ) $(OBJ:.o=.d) *.map
 
-#include $(OBJ:.o=.d)
+#TODO include $(OBJ:.o=.d)
