@@ -24,7 +24,7 @@ LDFLAGS = -Xlinker -Map=$(PROG).map -mcpu=cortex-m4 \
 	-T$(SDKDIR)/platform/Device/SiliconLabs/EFM32GG11B/Source/GCC/efm32gg11b.ld \
 	--specs=nano.specs -Wl,--gc-sections 
 
-LDLIBS = -lgcc -lc -lnosys
+LDLIBS = -lc -lgcc -lm -lnosys
 
 INC = \
 	-I. \
@@ -32,6 +32,8 @@ INC = \
 	-I$(SDKDIR)/platform/Device/SiliconLabs/EFM32GG11B/Include \
 	-I$(SDKDIR)/platform/emlib/inc \
 	-I$(SDKDIR)/platform/middleware/glib \
+	-I$(SDKDIR)/platform/middleware/glib/dmd \
+	-I$(SDKDIR)/platform/middleware/glib/glib \
 	-I$(SDKDIR)/hardware/kit/common/bsp \
 	-I$(SDKDIR)/hardware/kit/common/drivers \
 	-I$(SDKDIR)/hardware/kit/SLSTK3701A_EFM32GG11/config
