@@ -5,6 +5,7 @@ C_SRC =  \
 	$(SDKDIR)/platform/emlib/src/em_adc.c \
 	$(SDKDIR)/platform/emlib/src/em_assert.c \
 	$(SDKDIR)/platform/emlib/src/em_cmu.c \
+	$(SDKDIR)/platform/emlib/src/em_gpio.c \
 	./pot.c
 
 S_SRC =  \
