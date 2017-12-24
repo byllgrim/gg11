@@ -12,16 +12,23 @@ enum {
 };
 
 uint32_t
-measurePot(ADC_TypeDef *adc)
+measurePot()
 {
 	ADC_InitSingle_TypeDef single_init = {0}; /* TODO */
 	ADC_Start_TypeDef adc_start = {0}; /* TODO */
 	uint32_t data = 0;
 
-	ADC_InitSingle(adc, &single_init);
-	ADC_Start(adc, adc_start);
-	/* TODO check data valid? */
-	data = ADC_DataSingleGet(adc);
+	//single_init.reference = VREF?
+	//single_init.acqTime = ADC_ACQTIME?
+	//single_init.resolution = ADC_RESOLUTION?
+	//single_init.rep = true?
+	//single_init.posSel = adcPosSelAPORT2XCH27?
+	//single_init.negSel = adcNegSelVSS?
+	ADC_InitSingle(ADC0, &single_init);
+
+	ADC_Start(ADC0, adc_start);
+	/* TODO check data valid? adc->STATUS? */
+	data = ADC_DataSingleGet(ADC0);
 	return data;
 }
 
@@ -33,6 +40,13 @@ greenLedOn(void)
 }
 
 void
+redLedOn(void)
+{
+	GPIO_PinOutSet(LEDPORT, GREENPIN);
+	GPIO_PinOutClear(LEDPORT, REDPIN); /* active low */
+}
+
+void
 initLeds(void)
 {
 	CMU_ClockEnable(cmuClock_GPIO, true);
@@ -41,18 +55,29 @@ initLeds(void)
 	greenLedOn();
 }
 
+void
+initAdc(void)
+{
+	ADC_Init_TypeDef adc_init = ADC_INIT_DEFAULT;
+
+	CMU_ClockEnable(cmuClock_HFPER, true); /* TODO remove? */
+	CMU_ClockEnable(cmuClock_ADC0, true);
+	CMU_ClockEnable(cmuClock_ADC1, true); /* TODO remove? */
+
+	//adc_init.timebase = ADC_TimebaseCalc(0);
+	//adc_init.prescale = CMU_...
+	//adc_init.warmUpMode = adcWarmupKeepADCWarm;
+	ADC_Init(ADC0, &adc_init);
+}
+
 int
 main(void)
 {
-	ADC_Init_TypeDef adc_init = ADC_INIT_DEFAULT;
-	ADC_TypeDef adc = {0};
-
 	CHIP_Init();
-	/* TODO enable clocks: HFPERCLK? */
-	//ADC_Init(&adc, &adc_init);
 	initLeds();
+	initAdc();
 
-	//measurePot(&adc);
+	//measurePot();
 
 	for (;;)
 		;
