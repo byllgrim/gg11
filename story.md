@@ -344,3 +344,8 @@ But still I continue developing.
 This was not a *clean* experience.
 Things were not elegant and smooth.
 It was acceptable.
+
+All in all, I like the documentation.
+The API is well documented and accessible!
+The reference document is orderly.
+There are goods and evils here, but mostly a decent experience.
