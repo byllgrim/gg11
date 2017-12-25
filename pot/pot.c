@@ -15,7 +15,6 @@ uint32_t
 measurePot()
 {
 	ADC_InitSingle_TypeDef single_init = {0}; /* TODO */
-	ADC_Start_TypeDef adc_start = {0}; /* TODO */
 	uint32_t data = 0;
 
 	//single_init.reference = VREF?
@@ -26,7 +25,7 @@ measurePot()
 	//single_init.negSel = adcNegSelVSS?
 	ADC_InitSingle(ADC0, &single_init);
 
-	ADC_Start(ADC0, adc_start);
+	ADC_Start(ADC0, adcStartSingle);
 	/* TODO check data valid? adc->STATUS? */
 	data = ADC_DataSingleGet(ADC0);
 	return data;
@@ -60,12 +59,11 @@ initAdc(void)
 {
 	ADC_Init_TypeDef adc_init = ADC_INIT_DEFAULT;
 
-	CMU_ClockEnable(cmuClock_HFPER, true); /* TODO remove? */
 	CMU_ClockEnable(cmuClock_ADC0, true);
-	CMU_ClockEnable(cmuClock_ADC1, true); /* TODO remove? */
+	CMU_ClockEnable(cmuClock_HFPER, true); /* TODO necessary? */
 
 	//adc_init.timebase = ADC_TimebaseCalc(0);
-	//adc_init.prescale = CMU_...
+	//adc_init.prescale = ADC_PrescaleCalc(?, 0);
 	//adc_init.warmUpMode = adcWarmupKeepADCWarm;
 	ADC_Init(ADC0, &adc_init);
 }
