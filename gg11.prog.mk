@@ -14,7 +14,8 @@ DEPFLAGS = -MMD -MP -MF $(@:.o=.d)
 
 CFLAGS = -D$(DEVICE) -Wall -Wextra -mcpu=cortex-m4 -mthumb -mfloat-abi=softfp \
 	-mfpu=fpv4-sp-d16 -ffunction-sections -fdata-sections -Os -g \
-	-fomit-frame-pointer -std=c99 -DDEBUG_EFM $(DEPFLAGS) $(BUILDFLAGS)
+	-fomit-frame-pointer -std=c99 -DDEBUG_EFM $(DEPFLAGS) $(BUILDFLAGS) \
+	$(BUILDOPTS)
 
 ASMFLAGS = -x assembler-with-cpp -D$(DEVICE) -Wall -Wextra -mcpu=cortex-m4 \
 	-mthumb -mfloat-abi=softfp -mfpu=fpv4-sp-d16 -DDEBUG_EFM $(DEPFLAGS)
