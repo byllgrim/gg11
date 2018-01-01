@@ -77,7 +77,7 @@ main(void)
 	initAdc();
 	initVcom();
 
-	measurePot();
+	printf("adc: %lu\n", measurePot());
 
 	for (;;)
 		;
