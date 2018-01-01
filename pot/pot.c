@@ -14,21 +14,13 @@ enum {
 uint32_t
 measurePot()
 {
-	ADC_InitSingle_TypeDef single_init = {0}; /* TODO */
-	uint32_t data = 0;
+	ADC_InitSingle_TypeDef single_init = ADC_INITSINGLE_DEFAULT;
 
-	//single_init.reference = VREF?
-	//single_init.acqTime = ADC_ACQTIME?
-	//single_init.resolution = ADC_RESOLUTION?
-	//single_init.rep = true?
-	//single_init.posSel = adcPosSelAPORT2XCH27?
-	//single_init.negSel = adcNegSelVSS?
 	ADC_InitSingle(ADC0, &single_init);
-
 	ADC_Start(ADC0, adcStartSingle);
+
 	/* TODO check data valid? adc->STATUS? */
-	data = ADC_DataSingleGet(ADC0);
-	return data;
+	return ADC_DataSingleGet(ADC0);
 }
 
 void
@@ -62,9 +54,7 @@ initAdc(void)
 	CMU_ClockEnable(cmuClock_ADC0, true);
 	CMU_ClockEnable(cmuClock_HFPER, true); /* TODO necessary? */
 
-	//adc_init.timebase = ADC_TimebaseCalc(0);
-	//adc_init.prescale = ADC_PrescaleCalc(?, 0);
-	//adc_init.warmUpMode = adcWarmupKeepADCWarm;
+	adc_init.warmUpMode = adcWarmupKeepADCWarm;
 	ADC_Init(ADC0, &adc_init);
 }
 
@@ -75,7 +65,7 @@ main(void)
 	initLeds();
 	initAdc();
 
-	//measurePot();
+	measurePot();
 
 	for (;;)
 		;
