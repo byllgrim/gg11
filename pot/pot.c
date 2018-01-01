@@ -1,9 +1,11 @@
 #include <stdbool.h>
+#include <stdio.h>
 
 #include "em_adc.h"
 #include "em_chip.h"
 #include "em_cmu.h"
 #include "em_gpio.h"
+#include "retargetserial.h"
 
 enum {
 	LEDPORT = gpioPortH,
@@ -58,12 +60,22 @@ initAdc(void)
 	ADC_Init(ADC0, &adc_init);
 }
 
+void
+initVcom()
+{
+	RETARGET_SerialInit();
+	RETARGET_SerialCrLf(1);
+
+	printf("VCOM enabled\n");
+}
+
 int
 main(void)
 {
 	CHIP_Init();
 	initLeds();
 	initAdc();
+	initVcom();
 
 	measurePot();
 
