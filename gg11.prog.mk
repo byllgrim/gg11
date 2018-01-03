@@ -1,4 +1,4 @@
-# this file was inspired by, but is hardly a modification of, silabs makefiles
+# this makefile takes inspiration from silabs makefiles
 .POSIX:
 .PHONY: all clean
 
