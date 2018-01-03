@@ -1,14 +1,19 @@
 # this makefile takes inspiration from silabs makefiles
 .POSIX:
 .PHONY: all clean
-
 DEVICE = EFM32GG11B820F2048GL192
-TOOLDIR = D:/Program\ Files\ \(x86\)/GNU\ Tools\ ARM\ Embedded/6\ 2017-q2-update
+
+PROGRAMFILES = D:/Program\ Files\ \(x86\)/
+BINDIR = $(PROGRAMFILES)/GNU\ Tools\ ARM\ Embedded/6\ 2017-q2-update/bin/
+BINDIR = "" #for linux
 SDKDIR = D:/SiliconLabs/SimplicityStudio/v4/developer/sdks/gecko_sdk_suite/v2.0
-CC = $(TOOLDIR)/bin/arm-none-eabi-gcc
-LD = $(TOOLDIR)/bin/arm-none-eabi-ld
-AR = $(TOOLDIR)/bin/arm-none-eabi-ar
-OBJCOPY = $(TOOLDIR)/bin/arm-none-eabi-objcopy
+SDKDIR = /mnt/D/SiliconLabs/SimplicityStudio/v4/developer/sdks/gecko_sdk_suite/v2.0
+
+BUILDFLAGS = -DDEBUG #-DNDEBUG for release
+CC = $(BINDIR)arm-none-eabi-gcc
+LD = $(BINDIR)arm-none-eabi-ld
+AR = $(BINDIR)arm-none-eabi-ar
+OBJCOPY = $(BINDIR)arm-none-eabi-objcopy
 
 DEPFLAGS = -MMD -MP -MF $(@:.o=.d)
 
@@ -42,13 +47,7 @@ INC = \
 
 OBJ = $(C_SRC:.c=.o) $(S_SRC:.S=.o)
 
-all: debug
-
-debug: BUILDFLAGS = -DDEBUG
-debug: $(PROG).bin
-
-release: BUILDFLAGS = -DNDEBUG
-release: $(PROG).bin
+all: $(PROG).bin
 
 .c.o:
 	@echo CC `basename $<`
