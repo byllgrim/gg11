@@ -5,7 +5,7 @@ DEVICE = EFM32GG11B820F2048GL192
 
 PROGRAMFILES = D:/Program\ Files\ \(x86\)/
 BINDIR = $(PROGRAMFILES)/GNU\ Tools\ ARM\ Embedded/6\ 2017-q2-update/bin/
-BINDIR = "" #for linux
+BINDIR = #empty for linux
 SDKDIR = D:/SiliconLabs/SimplicityStudio/v4/developer/sdks/gecko_sdk_suite/v2.0
 SDKDIR = /mnt/D/SiliconLabs/SimplicityStudio/v4/developer/sdks/gecko_sdk_suite/v2.0
 
