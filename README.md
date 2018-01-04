@@ -13,3 +13,12 @@ Linux binaries can be found at SEGGER's website.
     J-Link> loadbin foobar.bin, 0
 
 Press the physical reset button and marvel.
+
+## Using VCOM on linux
+The following reads printfs and such from VCOM on my linux computer.
+
+    $cat /dev/ttyACM0
+    EFM32 Giant Gecko 11 USART4 example
+    Virtual COM port enabled.
+
+I haven't tried writing yet.
