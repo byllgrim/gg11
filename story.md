@@ -349,3 +349,8 @@ All in all, I like the documentation.
 The API is well documented and accessible!
 The reference document is orderly.
 There are goods and evils here, but mostly a decent experience.
+
+## More things that suck
+Trying to get the SDK without SimplicityStudio.
+The github repo for silabs sdk is old and doesnt have gg11 sdk.
+The zip download is also old and doesn't have gg11 sdk.
