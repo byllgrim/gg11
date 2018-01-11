@@ -15,4 +15,6 @@ C_SRC =  \
 S_SRC =  \
 	$(SDKDIR)/platform/Device/SiliconLabs/EFM32GG11B/Source/GCC/startup_efm32gg11b.S
 
+BUILDOPTS = -DRETARGET_VCOM
+
 include ../gg11.prog.mk
