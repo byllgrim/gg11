@@ -1,6 +1,8 @@
 #include <stdbool.h>
 #include <stdio.h>
 
+#include "em_device.h" /* include before other emlib headers */
+
 #include "em_adc.h"
 #include "em_chip.h"
 #include "em_cmu.h"
@@ -17,6 +19,14 @@ uint32_t
 measurePot()
 {
 	ADC_InitSingle_TypeDef single_init = ADC_INITSINGLE_DEFAULT;
+
+	/*
+	 TODO
+	.reference?
+	.rep?
+	*/
+	single_init.posSel = adcPosSelAPORT0XCH1; /* pin PC1 */
+	single_init.negSel = adcNegSelVSS;
 
 	ADC_InitSingle(ADC0, &single_init);
 	ADC_Start(ADC0, adcStartSingle);
