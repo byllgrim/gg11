@@ -1,0 +1,23 @@
++ new
+- done
+
+- commit adc measurement changes
+- create working VCOM example
+- compile on linux
+- program flash memory from linux
+- VCOM terminal on linux
+- enable VCOM in potentiometer program
+- test adc measurement with VCOM feedback
++ add stricter CFLAGS
+- achieve/verify correct values from adc measures
+- attach pot meter and read values
+- configure adc to use specified gpio ports
++ read clicks from external button
++ move lcd circle according to coordinates
++ create mouse casing
++ solder all wires
++ solder pin headers for all gpio connections
++ desolder all buttons, joysticks, etc
++ create mapping from physical to on-screen coordinates
++ increase adc resolution
++ indicate button presses on lcd
