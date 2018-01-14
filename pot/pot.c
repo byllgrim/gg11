@@ -1,7 +1,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#include "em_device.h" /* include before other emlib headers */
+#include "em_device.h"
 
 #include "em_adc.h"
 #include "em_chip.h"
@@ -15,26 +15,6 @@ enum {
 	GREENPIN = 11
 };
 
-uint32_t
-measurePot()
-{
-	ADC_InitSingle_TypeDef single_init = ADC_INITSINGLE_DEFAULT;
-
-	/*
-	 TODO
-	.reference?
-	.rep?
-	*/
-	single_init.posSel = adcPosSelAPORT0XCH1; /* pin PC1 */
-	single_init.negSel = adcNegSelVSS;
-
-	ADC_InitSingle(ADC0, &single_init);
-	ADC_Start(ADC0, adcStartSingle);
-
-	/* TODO check data valid? adc->STATUS? */
-	return ADC_DataSingleGet(ADC0);
-}
-
 void
 greenLedOn(void)
 {
@@ -47,6 +27,31 @@ redLedOn(void)
 {
 	GPIO_PinOutSet(LEDPORT, GREENPIN);
 	GPIO_PinOutClear(LEDPORT, REDPIN); /* active low */
+}
+
+uint32_t
+measurePot(void)
+{
+	ADC_InitSingle_TypeDef single_init = ADC_INITSINGLE_DEFAULT;
+
+	single_init.posSel = adcPosSelAPORT1XCH14; /* pin PA14 */
+	single_init.negSel = adcNegSelVSS;
+	single_init.reference = adcRef5V; /* TODO too high? */
+
+	ADC_InitSingle(ADC0, &single_init);
+	ADC_Start(ADC0, adcStartSingle);
+
+	if (ADC0->STATUS & ADC_IF_PROGERR) {
+		printf("progerr\n");
+		while (1)
+			redLedOn();
+	}
+
+	while (!(ADC0->STATUS & ADC_STATUS_SINGLEDV))
+		redLedOn();
+	greenLedOn();
+
+	return ADC_DataSingleGet(ADC0);
 }
 
 void
@@ -66,12 +71,12 @@ initAdc(void)
 	CMU_ClockEnable(cmuClock_ADC0, true);
 	CMU_ClockEnable(cmuClock_HFPER, true); /* TODO necessary? */
 
-	adc_init.warmUpMode = adcWarmupKeepADCWarm;
+	adc_init.warmUpMode = adcWarmupKeepADCWarm; /* TODO helpful? */
 	ADC_Init(ADC0, &adc_init);
 }
 
 void
-initVcom()
+initVcom(void)
 {
 	RETARGET_SerialInit();
 	RETARGET_SerialCrLf(1);
