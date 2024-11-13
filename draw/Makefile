@@ -6,7 +6,6 @@ C_SRC =  \
 	$(SDKDIR)/hardware/kit/common/drivers/displaypalemlib.c \
 	$(SDKDIR)/hardware/kit/common/drivers/udelay.c \
 	$(SDKDIR)/platform/Device/SiliconLabs/EFM32GG11B/Source/system_efm32gg11b.c \
-	$(SDKDIR)/platform/emlib/src/em_assert.c \
 	$(SDKDIR)/platform/emlib/src/em_cmu.c \
 	$(SDKDIR)/platform/emlib/src/em_core.c \
 	$(SDKDIR)/platform/emlib/src/em_ebi.c \
@@ -17,13 +16,14 @@ C_SRC =  \
 	$(SDKDIR)/platform/emlib/src/em_rtcc.c \
 	$(SDKDIR)/platform/emlib/src/em_system.c \
 	$(SDKDIR)/platform/emlib/src/em_usart.c \
+        $(SDKDIR)/platform/common/src/sl_assert.c \
 	$(SDKDIR)/platform/middleware/glib/dmd/display/dmd_display.c \
 	$(SDKDIR)/platform/middleware/glib/glib/glib.c \
 	$(SDKDIR)/platform/middleware/glib/glib/glib_bitmap.c \
 	$(SDKDIR)/platform/middleware/glib/glib/glib_circle.c \
-	$(SDKDIR)/platform/middleware/glib/glib/glib_font_normal_8x8.c \
-	$(SDKDIR)/platform/middleware/glib/glib/glib_font_narrow_6x8.c \
-	$(SDKDIR)/platform/middleware/glib/glib/glib_font_number_16x20.c \
+	$(SDKDIR)/platform/middleware/glib/fonts/glib_font_normal_8x8.c \
+	$(SDKDIR)/platform/middleware/glib/fonts/glib_font_narrow_6x8.c \
+	$(SDKDIR)/platform/middleware/glib/fonts/glib_font_number_16x20.c \
 	$(SDKDIR)/platform/middleware/glib/glib/glib_line.c \
 	$(SDKDIR)/platform/middleware/glib/glib/glib_polygon.c \
 	$(SDKDIR)/platform/middleware/glib/glib/glib_rectangle.c \

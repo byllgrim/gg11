@@ -8,6 +8,8 @@ BINDIR = $(PROGRAMFILES)/GNU\ Tools\ ARM\ Embedded/6\ 2017-q2-update/bin/
 BINDIR = #empty for linux
 SDKDIR = D:/SiliconLabs/SimplicityStudio/v4/developer/sdks/gecko_sdk_suite/v2.0
 SDKDIR = /mnt/D/SiliconLabs/SimplicityStudio/v4/developer/sdks/gecko_sdk_suite/v2.0
+SDKDIR=$(GSDK_PATH)/
+BINDIR=$(ARM_GCC_PATH)/bin/
 
 BUILDFLAGS = -DDEBUG #-DNDEBUG for release
 CC = $(BINDIR)arm-none-eabi-gcc
@@ -28,16 +30,18 @@ ASMFLAGS = -x assembler-with-cpp -D$(DEVICE) -Wall -Wextra -mcpu=cortex-m4 \
 LDFLAGS = -Xlinker -Map=$(PROG).map -mcpu=cortex-m4 \
 	-mthumb -mfloat-abi=softfp -mfpu=fpv4-sp-d16 \
 	-T$(SDKDIR)/platform/Device/SiliconLabs/EFM32GG11B/Source/GCC/efm32gg11b.ld \
-	--specs=nano.specs -Wl,--gc-sections 
+	--specs=nano.specs -specs=nosys.specs -Wl,--gc-sections
 
 LDLIBS = -lc -lgcc -lm -lnosys
 
 INC = \
 	-I. \
-	-I$(SDKDIR)/platform/CMSIS/Include \
+	-I$(SDKDIR)/platform/CMSIS/Core/Include \
+	-I$(SDKDIR)/platform/common/inc \
 	-I$(SDKDIR)/platform/Device/SiliconLabs/EFM32GG11B/Include \
 	-I$(SDKDIR)/platform/emlib/inc \
 	-I$(SDKDIR)/platform/middleware/glib \
+	-I$(SDKDIR)/platform/middleware/glib/config \
 	-I$(SDKDIR)/platform/middleware/glib/dmd \
 	-I$(SDKDIR)/platform/middleware/glib/glib \
 	-I$(SDKDIR)/hardware/kit/common/bsp \
